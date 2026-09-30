@@ -1,0 +1,51 @@
+--- a/bin/wakeup.sh
++++ b/bin/wakeup.sh
+@@ -129,6 +129,14 @@
+     logger -t wakeup.sh -p 3 "tone tts end"
+     ubus call pnshelper event_notify {\"src\":3,\"event\":13}  
+ }
++
++play_mibrain_error() {
++    if [ -f /etc/assistant/disable_xiaomi_asr ]; then
++        logger -t wakeup.sh -p 5 "custom assistant suppresses mibrain error prompts: $1"
++        return 0
++    fi
++    ubus -t 1 call mediaplayer player_play_url "{\"url\":\"file:///usr/share/sound/$1\",\"type\":1}"
++}
+ 
+ case "$1" in
+     WuW)
+@@ -241,26 +250,26 @@
+         ubus -t 1 call mediaplayer player_play_url {\"url\":\"file:///usr/share/sound/internet_disconnect.opus\",\"type\":1}
+         ;;
+     mibrain_connect_timeout)
+-        ubus -t 1 call mediaplayer player_play_url {\"url\":\"file:///usr/share/sound/mibrain_service_unavailable.opus\",\"type\":1}
++        play_mibrain_error mibrain_service_unavailable.opus
+         ;;
+     mibrain_service_timeout)
+-        ubus -t 1 call mediaplayer player_play_url {\"url\":\"file:///usr/share/sound/mibrain_service_unavailable.opus\",\"type\":1}
++        play_mibrain_error mibrain_service_unavailable.opus
+         ;;
+     mibrain_network_unreachable)
+-        ubus -t 1 call mediaplayer player_play_url {\"url\":\"file:///usr/share/sound/mibrain_service_unavailable.opus\",\"type\":1}
++        play_mibrain_error mibrain_service_unavailable.opus
+         ;;
+     mibrain_service_unreachable)
+         sleep 2
+-        ubus -t 1 call mediaplayer player_play_url {\"url\":\"file:///usr/share/sound/mibrain_service_unavailable.opus\",\"type\":1}
++        play_mibrain_error mibrain_service_unavailable.opus
+         ;;
+     mibrain_auth_failed)
+-        ubus -t 1 call mediaplayer player_play_url {\"url\":\"file:///usr/share/sound/mibrain_auth_failed.opus\",\"type\":1}
++        play_mibrain_error mibrain_auth_failed.opus
+         ;;
+     mibrain_start_failed)
+-        ubus -t 1 call mediaplayer player_play_url {\"url\":\"file:///usr/share/sound/mibrain_service_unavailable.opus\",\"type\":1}
++        play_mibrain_error mibrain_service_unavailable.opus
+         ;;
+     mibrain_unregistered)
+-        ubus -t 1 call mediaplayer player_play_url {\"url\":\"file:///usr/share/sound/mibrain_auth_failed_loading.opus\",\"type\":1}
++        play_mibrain_error mibrain_auth_failed_loading.opus
+         ;;
+     upgrade_now)
+         ubus -t 1 call mediaplayer player_play_url {\"url\":\"file:///usr/share/sound/upgrade_now.opus\",\"type\":1}

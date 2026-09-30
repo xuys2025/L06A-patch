@@ -1,0 +1,14 @@
+--- a/etc/init.d/wireless
++++ b/etc/init.d/wireless
+@@ -1451,6 +1451,11 @@ start_service()
+     }
+ 
+     sta_start  >/dev/null 2>&1
++
++    # Xiaomi's disabled network stack normally starts DHCP after association.
++    # Keep DHCP running independently so the patched system obtains an IP.
++    /etc/init.d/dhcpc restart >/dev/null 2>&1
++    /etc/init.d/odhcp6c restart >/dev/null 2>&1
+     return 0
+ }
+ 

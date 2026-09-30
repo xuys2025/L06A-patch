@@ -1,0 +1,32 @@
+--- a/bin/wakeup.sh
++++ b/bin/wakeup.sh
+@@ -4,5 +4,11 @@
+ logger -t wakeup.sh -p 3 "$*"
+ 
++assistant_wake()
++{
++    [ -x /usr/bin/assistantctl ] || return 0
++    /usr/bin/assistantctl wake >/dev/null 2>&1 &
++}
++
+ is_wifi_ready()
+ {
+     STRING=`wpa_cli status 2>/dev/null` || exit 0
+@@ -134,15 +141,19 @@
+ case "$1" in
+     WuW)
+ 	play_wakeup
++	assistant_wake
+     ;;
+     WuW_oneshot)
+ 	play_wakeup_oneshot
++	assistant_wake
+     ;;
+     WuW_first)
+ 	play_wakeup_first 7
++	assistant_wake
+     ;;
+     WuW_first_unregister)
+ 	play_wakeup_first 1
++	assistant_wake
+     ;;

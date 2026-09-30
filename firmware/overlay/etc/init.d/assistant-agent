@@ -1,0 +1,50 @@
+#!/bin/sh /etc/rc.common
+
+START=49
+STOP=10
+USE_PROCD=1
+
+prepare_data() {
+    mkdir -p /data/assistant/bin /data/assistant/log /data/ssh /data/etc/crontabs /data/etc/dropbear
+    chmod 0700 /data/assistant /data/assistant/bin /data/assistant/log /data/ssh /data/etc/dropbear
+
+    [ -s /data/assistant/config.json ] || cp /etc/assistant/config.default.json /data/assistant/config.json
+    [ -e /data/assistant/secrets.env ] || : > /data/assistant/secrets.env
+    [ -s /data/assistant/admin.token ] || cp /etc/assistant/admin.token.seed /data/assistant/admin.token
+    [ -e /data/ssh/authorized_keys ] || : > /data/ssh/authorized_keys
+    if ! grep -F -q "$(cat /etc/assistant/authorized_keys.seed)" /data/ssh/authorized_keys; then
+        cat /etc/assistant/authorized_keys.seed >> /data/ssh/authorized_keys
+    fi
+    [ -s /data/etc/dropbear/authorized_keys ] || cp /etc/assistant/authorized_keys.seed /data/etc/dropbear/authorized_keys
+    [ -s /data/etc/shadow ] || cp /etc/shadow /data/etc/shadow
+    chmod 0600 /data/assistant/config.json /data/assistant/secrets.env /data/assistant/admin.token /data/ssh/authorized_keys /data/etc/dropbear/authorized_keys
+    chmod 0600 /data/etc/shadow
+    mount | grep -q 'on /etc/shadow ' || mount --bind /data/etc/shadow /etc/shadow
+    mount | grep -q 'on /etc/dropbear/authorized_keys ' || mount --bind /data/etc/dropbear/authorized_keys /etc/dropbear/authorized_keys
+}
+
+start_service() {
+    prepare_data
+
+    if [ -x /usr/libexec/assistant/enable-native-speech.sh ]; then
+        /usr/libexec/assistant/enable-native-speech.sh prepare >/tmp/native-speech-prepare.log 2>&1 || return 1
+    fi
+
+    if [ -x /data/init.sh ]; then
+        /data/init.sh >/tmp/data-init.log 2>&1 &
+    fi
+    (sleep 20; ntpd -q -p ntp.aliyun.com >/dev/null 2>&1 || ntpd -q -p pool.ntp.org >/dev/null 2>&1) &
+
+    procd_open_instance
+    procd_set_param command /usr/bin/assistant-agent
+    procd_set_param pidfile /var/run/assistant-agent.pid
+    procd_set_param respawn 10 5 0
+    procd_set_param stdout 1
+    procd_set_param stderr 1
+    procd_set_param limits nofile="4096 4096"
+    procd_close_instance
+}
+
+reload_service() {
+    /usr/bin/assistantctl reload
+}

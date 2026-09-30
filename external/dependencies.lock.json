@@ -1,0 +1,9 @@
+{
+  "xiaoai-patch": {
+    "url": "https://github.com/duhow/xiaoai-patch.git",
+    "revision": "fb070495955668f825700bbd988d5443e9bcadb3",
+    "path": "external/xiaoai-patch",
+    "local_changes": "firmware/upstream/windows-local.patch",
+    "wsl_changes": "firmware/upstream/wsl-local.patch"
+  }
+}

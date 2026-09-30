@@ -1,0 +1,14 @@
+--- a/etc/init.d/mico_aivs_lab
++++ b/etc/init.d/mico_aivs_lab
+@@ -12,6 +12,11 @@
+ }
+ 
+ start_service() {
++    if [ -f /etc/assistant/disable_xiaomi_asr ]; then
++        logger -t mico_aivs_lab-init.d -p 5 "disabled: custom assistant owns post-wake ASR"
++        return 0
++    fi
++
+     mico_aivs_log "start_service"
+     procd_open_instance
+     procd_set_param command /usr/bin/mico_aivs_lab

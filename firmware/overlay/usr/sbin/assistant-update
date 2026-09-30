@@ -1,0 +1,32 @@
+#!/bin/sh
+set -eu
+
+SOURCE="${1:-}"
+EXPECTED="${2:-}"
+TARGET=/data/assistant/bin/assistant-agent
+STAGED=${TARGET}.new
+
+if [ -z "$SOURCE" ] || [ ! -f "$SOURCE" ]; then
+    echo "usage: assistant-update <uploaded-arm-binary> [sha256]" >&2
+    exit 2
+fi
+
+mkdir -p /data/assistant/bin
+cp "$SOURCE" "$STAGED"
+chmod 0755 "$STAGED"
+
+if [ -n "$EXPECTED" ]; then
+    ACTUAL="$(sha256sum "$STAGED" | awk '{print $1}')"
+    [ "$ACTUAL" = "$EXPECTED" ] || {
+        rm -f "$STAGED"
+        echo "sha256 mismatch" >&2
+        exit 1
+    }
+fi
+
+"$STAGED" --version
+"$STAGED" --check
+mv -f "$STAGED" "$TARGET"
+sync
+/etc/init.d/assistant-agent restart
+echo "assistant-agent updated"

@@ -1,0 +1,13 @@
+--- a/usr/sbin/boot_function.sh
++++ b/usr/sbin/boot_function.sh
+@@ -229,8 +229,9 @@
+ time_init_buildtime()
+ {
+     timezone_init
+-    buildts=$(micocfg_build_time)
+-    [ "x$buildts" != "x" ] && date -s "$buildts"
++    curtime="$(date +%s)"
++    buildts="$(find /etc -maxdepth 1 -type f -exec date -r {} +%s \; | sort -nr | head -n1)"
++    [ -n "$buildts" ] && [ "$curtime" -lt "$buildts" ] && date -s "@$buildts"
+ }
+ 

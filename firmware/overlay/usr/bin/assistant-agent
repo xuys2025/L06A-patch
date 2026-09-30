@@ -1,0 +1,10 @@
+#!/bin/sh
+
+DATA_BIN=/data/assistant/bin/assistant-agent
+FACTORY_BIN=/usr/libexec/assistant/assistant-agent.factory
+
+if [ -x "$DATA_BIN" ]; then
+    exec "$DATA_BIN" "$@"
+fi
+
+exec "$FACTORY_BIN" "$@"

@@ -1,0 +1,25 @@
+#!/bin/sh
+
+PIDFILE=/var/run/assistant-agent.pid
+
+case "$1" in
+    wake)
+        [ -s "$PIDFILE" ] || exit 1
+        kill -USR1 "$(cat "$PIDFILE")"
+        ;;
+    reload)
+        [ -s "$PIDFILE" ] || exit 1
+        kill -HUP "$(cat "$PIDFILE")"
+        ;;
+    status)
+        token="$(cat /data/assistant/admin.token 2>/dev/null)"
+        curl -fsS -H "X-Admin-Token: $token" "http://127.0.0.1:8090/api/status"
+        ;;
+    token)
+        cat /data/assistant/admin.token
+        ;;
+    *)
+        echo "usage: assistantctl {wake|reload|status|token}" >&2
+        exit 2
+        ;;
+esac

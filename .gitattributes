@@ -1,0 +1,15 @@
+* text=auto eol=lf
+*.sh text eol=lf
+*.go text eol=lf
+go.mod text eol=lf
+go.sum text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.mk text eol=lf
+*.patch text eol=lf
+*.ps1 text eol=lf
+firmware/overlay/** text eol=lf
+tools/cmake-compat/cmake text eol=lf

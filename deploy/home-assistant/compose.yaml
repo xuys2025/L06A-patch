@@ -1,0 +1,14 @@
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: ghcr.io/home-assistant/home-assistant:stable
+    restart: unless-stopped
+    stop_grace_period: 60s
+    privileged: true
+    network_mode: host
+    environment:
+      TZ: Asia/Hong_Kong
+    volumes:
+      - /volume1/docker/homeassistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /run/dbus:/run/dbus:ro

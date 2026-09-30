@@ -1,0 +1,133 @@
+--- a/etc/init.d/boot
++++ b/etc/init.d/boot
+@@ -64,26 +64,21 @@
+ l06a_board_config_fix()
+ {
+ if [ x"$board_id" == x"12" ] || [ x"$board_id" == x"9" ] || [ x"$board_id" == x"8" ] || [ x"$board_id" == x"7" ] || [ x"$board_id" == x"11" ]; then
+-    mkdir -p /data/mico
+-    cp /usr/share/mico/system.cfg /data/mico/
+-    micocfg_set /data/mico/system.cfg model L06A
+-    cp /usr/share/mico.l06a/*.cfg /data/mico/
+-    cfglist=$(cd /usr/share/mico;ls *.cfg)
+-    for onecfg in $cfglist;
+-    do
+-        mount --bind /data/mico/$onecfg  /usr/share/mico/$onecfg
+-    done
++    CONFIG_L06A=/tmp/mico.l06a
++    CONFIG_ORIG=/usr/share/mico
++    mkdir -p ${CONFIG_L06A}
++    cp -rf ${CONFIG_ORIG}/* ${CONFIG_L06A}/
++    cp -rf ${CONFIG_ORIG}.l06a/* ${CONFIG_L06A}/
+ 
+-    #stil need uci
+-    cp /usr/share/mico/version /data/mico/
+-    cp /usr/share/mico/manifest /data/mico/
+-    uci -c /data/mico set version.version.HARDWARE=L06A
+-    uci -c /data/mico set manifest.manifest.APPID=461124604870524928
+-    uci -c /data/mico set version.miio.module=xiaomi.wifispeaker.l06a
+-    uci -c /data/mico set version.miio.ssid_prefix=xiaomi-wifispeaker-l06a_miap
+-    uci -c /data/mico commit
+-    mount --bind /data/mico/version /usr/share/mico/version
+-    mount --bind /data/mico/manifest  /usr/share/mico/manifest
++    micocfg_set ${CONFIG_L06A}/system.cfg model L06A
++    uci -c ${CONFIG_L06A} set version.version.HARDWARE=L06A
++    uci -c ${CONFIG_L06A} set manifest.manifest.APPID=461124604870524928
++    uci -c ${CONFIG_L06A} set version.miio.module=xiaomi.wifispeaker.l06a
++    uci -c ${CONFIG_L06A} set version.miio.ssid_prefix=xiaomi-wifispeaker-l06a_miap
++    uci -c ${CONFIG_L06A} commit
++
++    mount --bind ${CONFIG_L06A} ${CONFIG_ORIG}
++    chmod a-w ${CONFIG_L06A}/*
+ fi
+ }
+ 
+--- a/etc/init.d/bluetooth
++++ b/etc/init.d/bluetooth
+@@ -35,13 +35,13 @@
+ 	procd_append_param respawn 5
+ 	procd_close_instance
+ 
+-	# procd_open_instance
+-	# procd_set_param command "$PROG2" 00:00:00:00:00:00 -vv -i hci0 -d default --profile-a2dp --stereo-audio
+-	# procd_set_param respawn
+-	# procd_append_param respawn 3600
+-	# procd_append_param respawn 5
+-	# procd_append_param respawn 5
+-	# procd_close_instance
++	procd_open_instance
++	procd_set_param command "$PROG2" 00:00:00:00:00:00 -vv -D "$ALSA_MIXER" --profile-a2dp
++	procd_set_param respawn
++	procd_append_param respawn 3600
++	procd_append_param respawn 5
++	procd_append_param respawn 5
++	procd_close_instance
+ }
+ 
+ function bluez_mibt_classical_start() {
+--- a/etc/init.d/wireless
++++ b/etc/init.d/wireless
+@@ -1086,12 +1086,9 @@
+     wireless_log "boot done volume $VOL_VALUE"
+     amixer sset mysoftvol $VOL_VALUE
+     if [ ! -f "/data/status/config_done" ]; then
+-        ubus -t 10 wait_for mediaplayer
+-        /etc/init.d/pns stop
+         [ "$MODEL" == "L16A" -o "$MODEL" == "L17A" -o "$MODEL" == "L16B" ] && miplay_bootup /usr/share/common_sound/bootup.opus
+         miplay /usr/share/common_sound/welcome.opus
+         [ "$MODEL" == "M03A" ] && boot_done_led
+-        /etc/init.d/pns start   
+     else
+         [ -x /bin/silentboot.sh ] && si_flag=`/bin/silentboot.sh get`
+         if [ "$si_flag" = "1" ]; then
+@@ -1121,6 +1118,7 @@
+             }
+         fi
+     fi
++    (sleep 10; ntpd -q -p pool.ntp.org) &
+     delay_show_light >/dev/null 2>&1 &
+ }
+ 
+@@ -1182,7 +1180,6 @@
+ 
+     /etc/init.d/miplay stop >/dev/null 2>&1
+     mico_ble_start > /dev/null 2>&1
+-    /etc/init.d/voip restart > /dev/null 2>&1
+ 
+     channel=$(micocfg_channel)
+     [ $WIFI_CHIP == "8821cs" ] && {
+@@ -1332,20 +1329,15 @@
+     sync
+ 
+     /etc/init.d/dnsmasq restart
+-    /etc/init.d/voip restart
+-    /etc/init.d/mico_aivs_lab restart >/dev/null 2>&1
+-    /etc/init.d/pns restart >/dev/null 2>&1
+-    /etc/init.d/idmruntime restart >/dev/null 2>&1
+     if [ -f /etc/init.d/miplay ]; then
+         {
+             sleep 2
+             /etc/init.d/miplay restart 1>/dev/null 2>&1
+         } >/dev/null 2>&1 &
+     fi
+     ( bootup_sound_custom >/dev/null 2>&1 ) &
+ 
+     andlink_enable >/dev/null 2>&1
+-    /etc/init.d/cmcc_ims restart  >/dev/null 2>&1
+ 
+     mico_ble_stop > /dev/null 2>&1
+     wireless_log "ble discover set 0 success."
+
+--- a/etc/init.d/wireless
++++ b/etc/init.d/wireless
+@@ -1451,6 +1451,11 @@ start_service()
+     }
+ 
+     sta_start  >/dev/null 2>&1
++
++    # Xiaomi's disabled network stack normally starts DHCP after association.
++    # Keep DHCP running independently so the patched system obtains an IP.
++    /etc/init.d/dhcpc restart >/dev/null 2>&1
++    /etc/init.d/odhcp6c restart >/dev/null 2>&1
+     return 0
+ }
+ 

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+
+case "${1-}" in
+  --build|--install|--open|--version|--help|-E|-P|--find-package)
+    exec /usr/bin/cmake "$@"
+    ;;
+esac
+
+exec /usr/bin/cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 "$@"

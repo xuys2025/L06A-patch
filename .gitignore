@@ -1,0 +1,46 @@
+# Machine-specific data, firmware dumps, credentials, caches and toolchains.
+/local/
+/external/*
+!/external/README.md
+!/external/dependencies.lock.json
+
+# Build outputs.
+/assistant-agent/dist/
+**/__pycache__/
+*.py[cod]
+*.test
+coverage.out
+*.prof
+*.log
+*.trace
+*.img
+*.squashfs
+*.ubi
+*.ubifs
+*.tar
+*.tar.gz
+*.tar.xz
+*.zip
+*.7z
+*.exe
+*.dll
+*.msi
+
+# Secrets belong in local/ or on the device, never in source control.
+.env
+.env.*
+!.env.example
+secrets.env
+admin-token.txt
+admin.token*
+root-password.hash
+id_rsa*
+id_ed25519*
+*.pem
+*.key
+known_hosts
+
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
