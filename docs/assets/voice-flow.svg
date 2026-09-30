@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="620" viewBox="0 0 1280 620" role="img" aria-labelledby="title desc">
+  <title id="title">从一句“小爱同学”到语音回答</title>
+  <desc id="desc">音箱保留原厂唤醒和音频前端。语音经云端 ASR 转成文字，由音箱内的 Go 助手分流到云端 LLM 或本机音乐控制，回答通过原厂 TTS 播放。</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 1 9 5 0 9" fill="none" stroke="#708888" stroke-width="1.5"/></marker></defs>
+  <rect x="1" y="1" width="1278" height="618" rx="24" fill="#f7f8f5" stroke="#e1e6dd"/>
+  <g font-family="Microsoft YaHei,PingFang SC,Noto Sans CJK SC,sans-serif">
+    <text x="48" y="62" fill="#203c43" font-size="27" font-weight="650">一句话，怎么走到回答</text>
+    <text x="48" y="94" fill="#687d7c" font-size="17">音箱负责唤醒、会话和播放；语音识别与大模型通过网络调用。</text>
+    <rect x="48" y="125" width="1184" height="120" rx="18" fill="#edf2f1"/>
+    <text x="71" y="157" fill="#748985" font-size="14">云端服务</text>
+    <rect x="348" y="155" width="210" height="67" rx="13" fill="#fff" stroke="#b9d4cf"/>
+    <text x="453" y="181" text-anchor="middle" fill="#1e4145" font-size="18" font-weight="600">豆包流式 ASR</text>
+    <text x="453" y="206" text-anchor="middle" fill="#6c827f" font-size="14">语音 → 文字</text>
+    <rect x="741" y="155" width="232" height="67" rx="13" fill="#fff" stroke="#b9d4cf"/>
+    <text x="857" y="181" text-anchor="middle" fill="#1e4145" font-size="18" font-weight="600">你配置的 LLM</text>
+    <text x="857" y="206" text-anchor="middle" fill="#6c827f" font-size="14">OpenAI 兼容接口</text>
+    <rect x="48" y="272" width="1184" height="230" rx="18" fill="#fff" stroke="#dde5dc"/>
+    <text x="71" y="305" fill="#748985" font-size="14">L06A 音箱</text>
+    <rect x="76" y="338" width="214" height="82" rx="14" fill="#f0f3ec"/>
+    <text x="183" y="370" text-anchor="middle" fill="#26454a" font-size="20" font-weight="600">“小爱同学”</text>
+    <text x="183" y="398" text-anchor="middle" fill="#6c827f" font-size="15">原厂唤醒 / 音频前端</text>
+    <rect x="403" y="337" width="240" height="86" rx="14" fill="#24474c"/>
+    <text x="523" y="372" text-anchor="middle" fill="#fff" font-size="21" font-weight="600">assistant-agent</text>
+    <text x="523" y="400" text-anchor="middle" fill="#b9dbd4" font-size="15">Go · 会话管理 · 指令分流</text>
+    <rect x="754" y="330" width="218" height="60" rx="13" fill="#f0f3ec"/>
+    <text x="863" y="366" text-anchor="middle" fill="#26454a" font-size="18">原厂 TTS / 播报</text>
+    <rect x="754" y="416" width="218" height="60" rx="13" fill="#fff0e8"/>
+    <text x="863" y="453" text-anchor="middle" fill="#8a573d" font-size="18">音乐 / 播放控制</text>
+    <circle cx="1107" cy="398" r="49" fill="#e8efea"/>
+    <path d="m1082 387 12 0 17-12v46l-17-12h-12zm39-3q14 14 0 28m9-38q24 24 0 48" stroke="#426d6d" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="1107" y="472" text-anchor="middle" fill="#6c827f" font-size="15">扬声器</text>
+    <g fill="none" stroke="#708888" stroke-width="2" marker-end="url(#arrow)">
+      <path d="M290 379H391"/>
+      <path d="M445 337V234"/>
+      <path d="M509 223V323"/>
+      <path d="M614 337V269H795V234"/>
+      <path d="M853 223V292H638V325"/>
+      <path d="M644 381H696V360H742"/>
+      <path d="M644 395H696V446H742"/>
+      <path d="M973 360H1014V381H1048"/>
+      <path d="M973 446H1014V414H1048"/>
+    </g>
+    <text x="305" y="365" fill="#708888" font-size="14">唤醒</text>
+    <text x="424" y="281" text-anchor="end" fill="#708888" font-size="14">音频</text>
+    <text x="522" y="281" fill="#708888" font-size="14">文字</text>
+    <text x="639" y="260" fill="#708888" font-size="14">对话</text>
+    <text x="914" y="281" fill="#708888" font-size="14">回答</text>
+    <text x="48" y="547" fill="#334f53" font-size="17">电脑用来编译和维护。日常使用时，助手直接运行在音箱上。</text>
+    <text x="48" y="578" fill="#788984" font-size="14">示意图省略了服务内部细节；云端模式需要联网，Home Assistant 不是必需组件。</text>
+  </g>
+</svg>

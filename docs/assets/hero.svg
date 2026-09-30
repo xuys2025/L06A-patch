@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="520" viewBox="0 0 1280 520" role="img" aria-labelledby="title desc">
+  <title id="title">L06A Patch — 小爱同学，接着聊。</title>
+  <desc id="desc">浅色封面，右侧为带青色灯环的音箱示意插画。保留原厂唤醒，接入可配置的语音助手。</desc>
+  <defs>
+    <linearGradient id="body" x1="0" x2="1"><stop stop-color="#182b34"/><stop offset=".55" stop-color="#2e4650"/><stop offset="1" stop-color="#152731"/></linearGradient>
+    <linearGradient id="halo"><stop stop-color="#61ead3"/><stop offset="1" stop-color="#2aa9d1"/></linearGradient>
+    <pattern id="mesh" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="5" cy="5" r="1.1" fill="#7e9aa3" opacity=".25"/></pattern>
+  </defs>
+  <rect x="1" y="1" width="1278" height="518" rx="28" fill="#f4f5f0" stroke="#e1e6dd"/>
+  <circle cx="1030" cy="270" r="185" fill="#e2ebe3"/>
+  <circle cx="1030" cy="270" r="222" fill="none" stroke="#d9e2d7" stroke-dasharray="3 10"/>
+  <path d="M64 58h28" stroke="#ec754f" stroke-width="6" stroke-linecap="round"/>
+  <g font-family="Inter,Segoe UI,Arial,sans-serif" fill="#1c353c">
+    <text x="108" y="64" font-size="16" font-weight="650" letter-spacing="3">A NEW CHAPTER FOR YOUR SPEAKER</text>
+    <text x="60" y="175" font-size="84" font-weight="750" letter-spacing="-4">L06A Patch<tspan fill="#ec754f">.</tspan></text>
+  </g>
+  <g font-family="Microsoft YaHei,PingFang SC,Noto Sans CJK SC,sans-serif" fill="#1c353c">
+    <text x="65" y="245" font-size="42" font-weight="600">小爱同学，接着聊。</text>
+    <text x="66" y="297" font-size="21" fill="#53696b">保留熟悉的唤醒，把对话接到自己的模型。</text>
+    <g font-size="17">
+      <rect x="65" y="339" width="132" height="42" rx="21" fill="#e2ebe3"/><text x="131" y="366" text-anchor="middle">原厂唤醒</text>
+      <rect x="211" y="339" width="132" height="42" rx="21" fill="#e2ebe3"/><text x="277" y="366" text-anchor="middle">连续对话</text>
+      <rect x="357" y="339" width="132" height="42" rx="21" fill="#e2ebe3"/><text x="423" y="366" text-anchor="middle">音乐控制</text>
+    </g>
+  </g>
+  <path d="M65 427H710" stroke="#d5ddd4"/>
+  <text x="66" y="464" font-size="14" fill="#71817d" font-family="Consolas,monospace" letter-spacing="1.2">LOCAL WAKE  /  CLOUD ASR + LLM  /  NATIVE TTS</text>
+  <ellipse cx="1015" cy="425" rx="118" ry="17" fill="#bccdc2" opacity=".5"/>
+  <rect x="923" y="191" width="184" height="215" rx="30" fill="url(#body)"/>
+  <ellipse cx="1015" cy="399" rx="92" ry="27" fill="#192f38"/>
+  <rect x="925" y="205" width="180" height="194" rx="24" fill="url(#mesh)"/>
+  <ellipse cx="1015" cy="193" rx="92" ry="31" fill="#20343c"/>
+  <ellipse cx="1015" cy="191" rx="79" ry="23" fill="none" stroke="url(#halo)" stroke-width="5"/>
+  <ellipse cx="1015" cy="191" rx="65" ry="16" fill="#152a32"/>
+  <path d="M1009 191h12m-6-5v10" stroke="#78999e" stroke-width="2" stroke-linecap="round"/>
+  <g fill="#79e1d5"><rect x="1000" y="300" width="4" height="16" rx="2"/><rect x="1010" y="291" width="4" height="34" rx="2"/><rect x="1020" y="297" width="4" height="22" rx="2"/><rect x="1030" y="303" width="4" height="10" rx="2"/></g>
+  <rect x="850" y="90" width="212" height="57" rx="19" fill="#fff" stroke="#d7e0d6"/>
+  <path d="m986 146 11 13 5-13" fill="#fff" stroke="#d7e0d6" stroke-linejoin="round"/>
+  <path d="M980 146h26" stroke="#fff" stroke-width="3"/>
+  <circle cx="877" cy="119" r="5" fill="#ec754f"/>
+  <text x="895" y="126" font-family="Microsoft YaHei,PingFang SC,Noto Sans CJK SC,sans-serif" font-size="21" fill="#254149">小爱同学</text>
+  <text x="1015" y="465" text-anchor="middle" font-size="12" letter-spacing="2" font-family="Segoe UI,Arial,sans-serif" fill="#71817d">L06A · A113X · ARMv7</text>
+</svg>
