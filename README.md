@@ -6,13 +6,9 @@
 
 给小爱音箱 L06A 接上可配置的语音助手。继续用熟悉的唤醒、扬声器和灯环。
 
-[![Source checks](https://github.com/xuys2025/L06A-patch/actions/workflows/check.yml/badge.svg)](https://github.com/xuys2025/L06A-patch/actions/workflows/check.yml)
-[![Go](https://img.shields.io/badge/Go-1.22%2B-00ADD8?logo=go&logoColor=white)](assistant-agent/go.mod)
-![Device](https://img.shields.io/badge/Device-L06A-24474C)
-![Architecture](https://img.shields.io/badge/Target-ARMv7-687D7C)
-![Development](https://img.shields.io/badge/Status-开发中-EC754F)
+[![Source checks](https://github.com/xuys2025/L06A-patch/actions/workflows/check.yml/badge.svg)](https://github.com/xuys2025/L06A-patch/actions/workflows/check.yml) [![Go](https://img.shields.io/badge/Go-1.22%2B-00ADD8?logo=go&logoColor=white)](assistant-agent/go.mod) ![Device](https://img.shields.io/badge/Device-L06A-24474C) ![Architecture](https://img.shields.io/badge/Target-ARMv7-687D7C) ![Development](https://img.shields.io/badge/Status-开发中-EC754F)
 
-[上手编译](#-先把代码跑通) · [功能与进度](#-现在能做什么) · [开发文档](docs/DEVELOPMENT.md) · [更新记录](docs/build/DEVICE_CHANGE_LOG.md)
+[上手编译](#quickstart) · [功能与进度](#features) · [开发文档](docs/DEVELOPMENT.md) · [更新记录](docs/build/DEVICE_CHANGE_LOG.md)
 
 </div>
 
@@ -23,6 +19,8 @@
 这个项目保留原厂“小爱同学”唤醒，让音箱上的 Go 程序接管后续会话：豆包负责语音识别，回答交给你配置的 LLM，再用原厂 TTS 播出来。音乐播放、网页配置和日常更新也放在这套程序里。
 
 **日常使用不需要电脑常开，也不依赖 Home Assistant。** 目前的语音识别和大模型对话需要联网；这里没有在音箱上跑本地大模型。
+
+<a id="features"></a>
 
 ## ✨ 现在能做什么
 
@@ -43,6 +41,8 @@
 ![L06A 语音流程：本地唤醒、云端识别与对话、原厂播报](docs/assets/voice-flow.svg)
 
 助手负责会话和指令分流，原厂组件继续负责音频前端、播报与播放。两边通过设备已有的接口配合，尽量复用已经能工作的部分。
+
+<a id="quickstart"></a>
 
 ## 🚀 先把代码跑通
 
